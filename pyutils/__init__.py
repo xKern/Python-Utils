@@ -9,9 +9,10 @@ import time
 import sys
 import hashlib
 import threading
-from enum import auto, IntFlag
+from enum import auto, IntFlag, Enum
 import string
 import random
+from typing import Union
 
 
 class CharacterSet(IntFlag):
@@ -22,6 +23,14 @@ class CharacterSet(IntFlag):
     ALL = NUMBERS | LOWERCASE | UPPERCASE
     HEXUPPER = NUMBERS | UPPERCASE | HEXCHARS
     HEXLOWER = NUMBERS | LOWERCASE | HEXCHARS
+
+class LogType(Enum):
+    INFO = 0            # general log
+    ADD = 1             # indicate resoure add 
+    REMOVE = 2          # indicate resource removal
+    WARNING = 3         # warnings
+    ERROR = 4           # general warnings
+    DEBUG = 5           # debug logs
 
 
 def error_exit(message: str):
@@ -193,10 +202,12 @@ def replace_extension(path, extension=None):
     return new_path
 
 
-def log(entry, type=0, show_caller=False, show_thread=False):
+def log(entry: str, logtype: Union[LogType, int] = LogType.INFO, show_caller=False, show_thread=False):
     symbols = ['*', '+', '-', '!', '#', '>', '<']
+    if isinstance(logtype, LogType):
+        logtype = logtype.value
     try:
-        symbol = symbols[type]
+        symbol = symbols[logtype]
     except Exception:
         symbol = '*'
     thread_name = f" [{threading.current_thread().name}]" if show_thread else ''
