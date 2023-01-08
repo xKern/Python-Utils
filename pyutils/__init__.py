@@ -354,3 +354,31 @@ def human_readable_size(size: int, ib_unit: bool = False):
     format_string = "%d" if int(result) == result else "%.2f"
     return f"{format_string} %s" % (result, selected_unit)
 
+
+def timediff_str(seconds: int, components: int = 2):
+    """Returns a string representation of a time duration given in seconds.
+
+    Args:
+        seconds (`int`): The time duration in seconds.
+        components (`int`, optional): The maximum number of time units to include in the string. 
+        Defaults to 2.
+
+    Returns:
+        `str`: The string representation of the input seconds.
+    """
+    # TODO: fix components
+    comps = []
+    if not seconds:
+        return '0s'
+    units = [86400, 3600, 60, 1]
+    units_str = ['d', 'h', 'm', 's']
+    comp_count = 0
+    for (i, unit) in enumerate(units):
+        if comp_count >= 2:
+            break
+        result = int(seconds / unit)
+        seconds %= unit
+        if result:
+            comp_count += 1
+            comps.append(f"{result}{units_str[i]}")
+    return " ".join(comps)
