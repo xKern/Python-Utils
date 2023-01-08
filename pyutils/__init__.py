@@ -72,15 +72,14 @@ def sha1_string(string: str) -> str:
 
 
 def random_string(length: int, characters: CharacterSet) -> str:
-    """
-    random_string - Generate a random string with a given length and character set.
+    """Generate a random string with a given length and character set.
 
-    Parameters:
-    length (int): The length of the string to generate.
-    characters (CharacterSet): The set of characters to use in generating the string.
+    Args:
+        length (int): The length of the string to generate.
+        characters (CharacterSet): The set of characters to use in generating the string.
 
     Returns:
-    str: The generated string.
+        str: The generated string.
     """
     charset = []
     if isinstance(characters, CharacterSet):
@@ -114,20 +113,18 @@ def random_string(length: int, characters: CharacterSet) -> str:
     return ''.join(rand_string)
 
 
-def intervalcheck(key: str, duration: int, use_key_as_path: bool = False,
-                  retouch: bool = True) -> bool:
-    """
-    intervalcheck - Check if a specified interval (seconds) has passed since the last time a given key was checked.
+def intervalcheck(key: str, duration: int, use_key_as_path: bool = False, retouch: bool = True) -> bool:
+    """Check if a specified interval (seconds) has passed since the last time a given `key` was checked.
 
-    Parameters:
-    key (str): The key to check. The key is created if it doesn't exist.
-    duration (int): The duration of the interval (in seconds) to check.
-    use_key_as_path (bool, optional): Allows you to use key argument as a file path. This file's modified time is 
-    used for comparison.
-    retouch (bool, optional): Whether to update the key's last modified time after checking. Defaults to True.
+    Args:
+        key (`str`): The key to check. The key is created if it doesn't exist.
+        duration (`int`): The duration of the interval (in seconds) to check.
+        use_key_as_path (`bool`, optional): Allows you to use `key` argument as a file path. This file's modified time is 
+        used for comparison.
+        retouch (`bool`, optional): Whether to update the `key`'s last modified time after checking. Defaults to `True`.
 
     Returns:
-    bool: True if the interval has passed, False otherwise.
+        `bool`: True if the interval has passed, False otherwise.
     """
     expired = False
     if use_key_as_path:
@@ -155,14 +152,13 @@ def intervalcheck(key: str, duration: int, use_key_as_path: bool = False,
 
 
 def get_redirect_url(url):
-    """
-    get_redirect_url - Follows a single redirect for a given URL and returns the final redirect URL.
+    """Follows a single redirect for a given URL and returns the final redirect URL.
 
-    Parameters:
-    url (str): The URL to follow the redirect for.
+    Args:
+        `url` (`str`): The URL to follow the redirect for.
 
     Returns:
-    str: The final redirect URL or None if no redirect occurred.
+        `str`: The final redirect URL or None if no redirect occurred.
     """
     redirect_url = None
     try:
@@ -182,15 +178,14 @@ def get_redirect_url(url):
 
 
 def bz2decompress(in_file_path, out_file_path) -> bool:
-    """
-    bz2decompress - Decompresses a bz2-compressed file.
+    """Decompresses a bz2-compressed file.
 
-    Parameters:
-    in_file_path (str): The path of the input file to decompress.
-    out_file_path (str): The path of the output file to write the decompressed data to.
+    Args:
+        in_file_path (`str`): The path of the input file to decompress.
+        out_file_path (`str`): The path of the output file to write the decompressed data to.
 
     Returns:
-    bool: True if the decompression was successful, False otherwise.
+        `bool`: True if the decompression was successful, False otherwise.
     """
     if not os.path.exists(in_file_path):
         return False
@@ -201,14 +196,13 @@ def bz2decompress(in_file_path, out_file_path) -> bool:
 
 
 def get_remote_filesize(url) -> Optional[int]:
-    """
-    get_remote_filesize - Retrieve the size of a file at a given URL.
+    """Retrieve the size of a file at a given URL.
 
-    Parameters:
-    url (str): The URL of the file to retrieve the size of.
+    Args:
+        url (`str`): The URL of the file to retrieve the size of.
 
     Returns:
-    int: The size of the file in bytes. If the size cannot be retrieved, returns None.
+        `int`: The size of the file in bytes. If the size cannot be retrieved, returns None.
     """
     if not url:
         return None
@@ -223,30 +217,28 @@ def get_remote_filesize(url) -> Optional[int]:
 
 
 def url_filename(url):
-    """
-    url_filename - Extract the file name from a given URL.
+    """Extract the file name from a given URL.
 
-    Parameters:
-    url (str): The URL to extract the file name from.
+    Args:
+        url (`str`): The URL to extract the file name from.
 
     Returns:
-    str: The extracted file name.
+        `str`: The extracted file name.
     """
     parsed = urlparse(url)
     return os.path.basename(parsed.path)
 
 
 def download_file(url, local_path, headers=[]):
-    """
-    download_file - Download a file from a given URL and save it to a specified local path.
+    """Download a file from a given URL and save it to a specified local path.
 
-    Parameters:
-    url (str): The URL of the file to download.
-    local_path (str): The local file path to save the downloaded file to.
-    headers (list, optional): A list of HTTP headers to include in the request. Defaults to an empty list.
+    Args:
+        url (`str`): The URL of the file to download.
+        local_path (`str`): The local file path to save the downloaded file to.
+        headers (`list`, optional): A list of HTTP headers to include in the request. Defaults to an empty list.
 
     Returns:
-    bool: True if the file was successfully downloaded and saved, False otherwise.
+        `bool`: True if the file was successfully downloaded and saved, False otherwise.
     """
     opener = urllib.request.build_opener()
     opener.addheaders = headers
@@ -258,20 +250,19 @@ def download_file(url, local_path, headers=[]):
 
 
 def url_split(url: str) -> URLInfo:
-    """
-    url_split - Split a URL into its component parts.
+    """Split a URL into its component parts.
 
-    Parameters:
-    url (str): The URL to split.
+    Args:
+        url (`str`): The URL to split.
 
     Returns:
-    URLInfo: A named tuple containing the following fields:
-        url (str): The original URL.
-        domain (str): The domain of the URL.
-        components (list): A list of path components in the URL.
-        scheme (str): The scheme (e.g. 'http') of the URL.
-        query (dict): A dictionary of query parameters and their values.
-        fragment (str): The fragment identifier (e.g. '#section-1') of the URL.
+        `URLInfo`: A named tuple containing the following fields:
+            url (str): The original URL.
+            domain (str): The domain of the URL.
+            components (list): A list of path components in the URL.
+            scheme (str): The scheme (e.g. 'http') of the URL.
+            query (dict): A dictionary of query parameters and their values.
+            fragment (str): The fragment identifier (e.g. '#section-1') of the URL.
     """
     url_split = urlparse(url, allow_fragments=True)
     if not url_split.netloc:
@@ -284,17 +275,16 @@ def url_split(url: str) -> URLInfo:
 
 
 def replace_extension(path, extension=None):
-    """
-    replace_extension - Replace the extension of a file path with a new extension.
+    """Replace the extension of a file path with a new extension.
 
-    Parameters:
-    path (str): The file path to modify.
-    extension (str, optional): The new extension to use. 
-    If not specified, the extension will be removed.
+    Args:
+        path (`str`): The file path to modify.
+        extension (`str`, optional): The new extension to use. 
+        If not specified, the extension will be removed.
 
     Returns:
-    str: The modified file path with the new extension. 
-    If the file path is invalid or no extension was specified, returns None.
+        `str`: The modified file path with the new extension. 
+        If the file path is invalid or no extension was specified, returns None.
     """
     if not path:
         return None
@@ -309,14 +299,13 @@ def replace_extension(path, extension=None):
 
 
 def log(entry: str, logtype: Union[LogType, int] = LogType.INFO, show_caller=False, show_thread=False):
-    """
-    log - Print a log message with a specified type and optional caller and thread information.
+    """Print a log message with a specified type and optional caller and thread information.
 
-    Parameters:
-    entry (str): The log message to print.
-    logtype (Union[LogType, int], optional): The type of the log message. Can be specified using a member of the LogType enum or an integer. Defaults to LogType.INFO.
-    show_caller (bool, optional): Whether to include the caller function's name in the log message. Defaults to False.
-    show_thread (bool, optional): Whether to include the current thread's name in the log message. Defaults to False.
+    Args:
+        entry (`str`): The log message to print.
+        logtype (Union[`LogType`, `int`], optional): The type of the log message. Defaults to LogType.INFO.
+        show_caller (`bool`, optional): Include the caller function's name in the log message. Defaults to False.
+        show_thread (`bool`, optional): Include the current thread's name in the log message. Defaults to False.
     """
     symbols = ['*', '+', '-', '!', '#', '>', '<']
     if isinstance(logtype, LogType):
@@ -333,16 +322,15 @@ def log(entry: str, logtype: Union[LogType, int] = LogType.INFO, show_caller=Fal
 
 
 def human_readable_size(size: int, ib_unit: bool = False):
-    """
-    human_readable_size - Convert a size in bytes to a human-readable format.
+    """Convert a size in bytes to a human-readable format.
 
-    Parameters:
-    size (int): The size in bytes to convert.
-    ib_unit (bool, optional): Whether to use binary prefixes (e.g. KiB, MiB) 
-    instead of decimal prefixes (e.g. KB, MB). Defaults to False.
+    Args:
+        size (`int`): The size in bytes to convert.
+        ib_unit (`bool`, optional): Whether to use binary units (e.g. KiB, MiB) 
+        instead of decimal prefixes (e.g. KB, MB). Defaults to False.
 
     Returns:
-    str: The size in a human-readable format, e.g. '5.67 MB'.
+        `str`: The size in a human-readable format, e.g. '5.67 MB'.
     """
     units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB']
     selected_unit = 'bytes'
