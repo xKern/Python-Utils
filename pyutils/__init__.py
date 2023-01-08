@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 import os
 import urllib.request
 from urllib.error import HTTPError
@@ -12,7 +13,7 @@ import threading
 from enum import auto, IntFlag, Enum
 import string
 import random
-from typing import Optional, Union
+from typing import Any, List, Optional, Union, Dict
 
 
 class CharacterSet(IntFlag):
@@ -33,6 +34,21 @@ class LogType(Enum):
     DEBUG = 5           # debug logs
 
 
+@dataclass
+class URLInfo:
+    url: str
+    domain: str
+    components: List[str]
+    scheme: str
+    query: Dict[str, Any]
+    fragment: str = None
+
+
+class NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
 def log_and_error(message: str):
     """Log error and raise an exception
 
@@ -44,16 +60,6 @@ def log_and_error(message: str):
     """
     log(message, LogType.ERROR)
     raise Exception(message)
-
-
-URLInfo = namedtuple(
-    "URLInfo", ['url', 'domain', 'components', 'scheme', 'query', 'fragment'],
-    defaults=(None,) * 5)
-
-
-class NoRedirect(urllib.request.HTTPRedirectHandler):
-    def redirect_request(self, req, fp, code, msg, headers, newurl):
-        return None
 
 
 def sha1_string(string: str) -> str:
