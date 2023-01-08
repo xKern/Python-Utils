@@ -366,15 +366,16 @@ def timediff_str(seconds: int, components: int = 2):
     Returns:
         `str`: The string representation of the input seconds.
     """
-    # TODO: fix components
     comps = []
-    if not seconds:
+    if not seconds or seconds < 0:
         return '0s'
+    if not components:
+        return f"{seconds}s"
     units = [86400, 3600, 60, 1]
     units_str = ['d', 'h', 'm', 's']
     comp_count = 0
     for (i, unit) in enumerate(units):
-        if comp_count >= 2:
+        if comp_count >= components:
             break
         result = int(seconds / unit)
         seconds %= unit
