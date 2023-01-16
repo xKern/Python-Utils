@@ -7,14 +7,18 @@ from collections import namedtuple
 import shutil
 import bz2
 import time
-import sys
 import hashlib
-import threading
-from enum import auto, IntFlag, Enum
+from enum import auto, IntFlag
 import string
 import random
 from typing import Any, List, Optional, Union, Dict
+from .logging import LogType, Logger
 
+# instantiate common logger to replace log() function
+__logger = Logger()
+__logger.write_file = False
+# nice things about python
+log = __logger.log
 
 class CharacterSet(IntFlag):
     NUMBERS = auto()
@@ -24,14 +28,6 @@ class CharacterSet(IntFlag):
     ALL = NUMBERS | LOWERCASE | UPPERCASE
     HEXUPPER = NUMBERS | UPPERCASE | HEXCHARS
     HEXLOWER = NUMBERS | LOWERCASE | HEXCHARS
-
-class LogType(Enum):
-    INFO = 0            # general log
-    ADD = 1             # indicate resoure add 
-    REMOVE = 2          # indicate resource removal
-    WARNING = 3         # warnings
-    ERROR = 4           # general warnings
-    DEBUG = 5           # debug logs
 
 
 @dataclass
@@ -302,29 +298,6 @@ def replace_extension(path, extension=None):
         return None
     new_path = f"{path_split[0]}.{extension}"
     return new_path
-
-
-def log(entry: str, logtype: Union[LogType, int] = LogType.INFO, show_caller=False, show_thread=False):
-    """Print a log message with a specified type and optional caller and thread information.
-
-    Args:
-        entry (`str`): The log message to print.
-        logtype (Union[`LogType`, `int`], optional): The type of the log message. Defaults to LogType.INFO.
-        show_caller (`bool`, optional): Include the caller function's name in the log message. Defaults to False.
-        show_thread (`bool`, optional): Include the current thread's name in the log message. Defaults to False.
-    """
-    symbols = ['*', '+', '-', '!', '#', '>', '<']
-    if isinstance(logtype, LogType):
-        logtype = logtype.value
-    try:
-        symbol = symbols[logtype]
-    except Exception:
-        symbol = '*'
-    thread_name = f" [{threading.current_thread().name}]" if show_thread else ''
-
-    func = f" [{sys._getframe(1).f_code.co_name}] -->" if show_caller else ''
-    line = f"[{symbol}]{thread_name}{func} {entry}"
-    print(line)
 
 
 def human_readable_size(size: int, ib_unit: bool = False):
