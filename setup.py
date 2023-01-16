@@ -5,7 +5,7 @@ from setuptools import find_packages
 setup(
     name='pyutils',
     packages=find_packages('.'),
-    version='0.0.6',
+    version='0.0.7',
     license='MIT',
     description=('Common utility functions for python scripts'),
     author='ARX8x',

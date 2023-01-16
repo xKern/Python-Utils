@@ -383,3 +383,30 @@ def timediff_str(seconds: int, components: int = 2):
             comp_count += 1
             comps.append(f"{result}{units_str[i]}")
     return " ".join(comps)
+
+
+def boolval(val: str) -> bool:
+    """Convert the given string to bool.
+       Strings that are numeric with a non-zero value will be True. 
+       Strings that say "false" in any casing will be False. Other strings
+       will return True.
+
+    Args:
+        val (str): the string value
+
+    Returns:
+        bool: the converted boolean value
+    """
+    try:
+        return bool(int(val))
+    except Exception:
+        pass
+    try:
+        return bool(float(val))
+    except Exception:
+        pass
+    print('doo')
+    val = val.lower()
+    if val == 'false':
+        return False
+    return True
