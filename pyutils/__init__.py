@@ -405,7 +405,6 @@ def boolval(val: str) -> bool:
         return bool(float(val))
     except Exception:
         pass
-    print('doo')
     val = val.lower()
     if val == 'false':
         return False
