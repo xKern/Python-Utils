@@ -17,6 +17,9 @@ class Logger:
         self.__log_path = None 
         self.__file = None
         self.write_file = False
+        self.enabled = True
+        if (enabled := os.getenv('enable_logging')) is not None:
+            self.enabled = bool(int(enabled))
 
     @property
     def log_file(self) -> str:
@@ -54,6 +57,8 @@ class Logger:
             show_caller (`bool`, optional): Include the caller function's name in the log message. Defaults to False.
             show_thread (`bool`, optional): Include the current thread's name in the log message. Defaults to False.
         """
+        if not self.enabled:
+            return
         symbols = ['*', '+', '-', '!', '#', '>', '<']
         if isinstance(logtype, LogType):
             logtype = logtype.value
