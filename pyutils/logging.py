@@ -33,7 +33,7 @@ class Logger:
             # if yes, check if it actually exists
             if (dir_path := os.path.dirname(path)):
                 if not os.path.exists(dir_path):
-                    raise FileNotFoundError(f"The path {dir_path} doesn't exist")
+                    raise FileNotFoundError(f"The path '{dir_path}' doesn't exist")
         # if the file exists, open it and append
         file_exists = os.path.exists(path)
         file = open(path, 'a')
@@ -70,9 +70,35 @@ class Logger:
 
         func = f" [{sys._getframe(1).f_code.co_name}] -->" if show_caller else ''
         line = f"[{symbol}]{thread_name}{func} {entry}\n"
+        self.__write_line(line)
+
+    def __write_line(self, line: str):
         sys.stdout.write(line)
         if self.__file:
             self.__file.write(line)
+
+    def delimit(self, length: int = 8, char: str = '-',):
+        """Print a line of delimiting characters.
+
+        Args:
+            char (`str`, optional): The character to use for the delimiting line. Defaults to '-'.
+            length (`int`, optional): The length of the delimiting line. Defaults to 80.
+        """
+        if not self.enabled:
+            return
+        line = char * length + '\n'
+        self.__write_line(line)
+
+    def section_title(self, title: str):
+        """Print a section title.
+
+        Args:
+            title (`str`): The section title to print.
+        """
+        if not self.enabled:
+            return
+        line = f"=== {title} ===\n"
+        self.__write_line(line)
 
 
 
