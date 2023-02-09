@@ -1,6 +1,6 @@
 [project]
 name = "pyutils"
-version = "0.2.0"
+version = "0.2.1"
 description = "Common utility functions for python scripts"
 authors = [
     {email = "root@xken.net"},

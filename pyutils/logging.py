@@ -89,7 +89,7 @@ class Logger:
         line = char * length + '\n'
         self.__write_line(line)
 
-    def section_title(self, title: str):
+    def section_title(self, title: str, add_newline: bool = True):
         """Print a section title.
 
         Args:
@@ -97,7 +97,8 @@ class Logger:
         """
         if not self.enabled:
             return
-        line = f"=== {title} ===\n"
+        newline = '\n' if add_newline else ''
+        line = f"{newline}=== {title} ===\n"
         self.__write_line(line)
 
 
